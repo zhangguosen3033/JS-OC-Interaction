@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8" />
+    <title>iOS and Js</title>
+    <style type="text/css">
+      * {
+        font-size: 40px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    
+    <div style="margin-top: 100px">
+      <h1 style="color: red;">教你如何用H5与OC进行交互,并且把H5输入的内容显示到当前的控制器上</h1><br/>
+      <div><input type="button" value="点击触发JS方法(callJsAlert)" onclick="callJsAlert()"></div>
+      <br/>
+      <div><input type="button" value="点击触发JS方法(callJsConfirm)" onclick="callJsConfirm()"></div><br/>
+    </div>
+    <br/>
+    <div>
+      <div><input type="button" value="点击触发JS输入方法(callJsInput) " onclick="callJsInput()"></div><br/>
+      <div>Click me here: <a href="http://www.baidu.com">Jump to 百度</a></div>
+    </div>
+    
+    <br/>
+    <div id="SwiftDiv">
+      <span id="jsParamFuncSpan" style="color: red; font-size: 50px;"></span>
+    </div>
+    
+    <script type="text/javascript">
+      function callJsAlert() {
+        alert('这个是OC调用JS的方法,并且通过Alert()进行显示出来!');
+        
+        window.webkit.messageHandlers.AppModel.postMessage({body: '在JS中调用JS中方法'});
+      }
+    
+    function callJsConfirm() {
+      if (confirm('confirm', 'Objective-C call js to show confirm')) {
+        document.getElementById('jsParamFuncSpan').innerHTML
+        = 'true';
+      } else {
+        document.getElementById('jsParamFuncSpan').innerHTML
+        = 'false';
+      }
+      
+      // AppModel是我们所注入的对象
+      window.webkit.messageHandlers.AppModel.postMessage({body: '我是JS里面的内容'});
+    }
+    
+    function callJsInput() {
+      var response = prompt('Hello', '请输入你的名字:');
+      document.getElementById('jsParamFuncSpan').innerHTML = response;
+      
+       // AppModel是我们所注入的对象
+      window.webkit.messageHandlers.AppModel.postMessage({body: response});
+    }
+      </script>
+  </body>
+</html>
